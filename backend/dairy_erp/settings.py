@@ -2,12 +2,17 @@ from pathlib import Path
 from datetime import timedelta
 from decouple import config
 import dj_database_url
+import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config("DJANGO_SECRET_KEY", default="dev-secret-key-change-me")
 DEBUG = config("DJANGO_DEBUG", default=True, cast=bool)
-ALLOWED_HOSTS = [h.strip() for h in config("DJANGO_ALLOWED_HOSTS", default="localhost,127.0.0.1").split(",")]
+# ALLOWED_HOSTS = [h.strip() for h in config("DJANGO_ALLOWED_HOSTS", default="localhost,127.0.0.1").split(",")]
+ALLOWED_HOSTS = os.environ.get(
+    "ALLOWED_HOSTS",
+    "localhost,127.0.0.1,dairy2.onrender.com,.onrender.com"
+).split(",")
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -79,7 +84,10 @@ CORS_ALLOWED_ORIGINS = [
     origin.strip()
     for origin in config("CORS_ALLOWED_ORIGINS", default="http://localhost:5173,http://127.0.0.1:5173").split(",")
 ]
-
+CSRF_TRUSTED_ORIGINS = [
+    "https://dairy2.onrender.com",
+    "https://*.onrender.com",
+]
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": ("rest_framework_simplejwt.authentication.JWTAuthentication",),
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
