@@ -9,7 +9,7 @@ export default function Login() {
   async function submit(e) {
     e.preventDefault();
     try {
-      const res = await api.post("/auth/token/", { username, password });
+      const res = await api.post("/api/token/", { username, password });
       localStorage.setItem("accessToken", res.data.access);
       localStorage.setItem("refreshToken", res.data.refresh);
       window.location.href = "/";
