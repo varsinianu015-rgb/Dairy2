@@ -11,8 +11,8 @@ export default function Dashboard() {
   const [chart, setChart] = useState([]);
 
   useEffect(() => {
-    api.get("/api/dashboard/summary/").then((res) => setSummary(res.data));
-    api.get("/api/dashboard/collection-chart/").then((res) => setChart(res.data));
+    api.get("/dashboard/summary/").then((res) => setSummary(res.data));
+    api.get("/dashboard/collection-chart/").then((res) => setChart(res.data));
   }, []);
 
   if (!summary) return <div>Loading...</div>;
